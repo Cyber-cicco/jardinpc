@@ -20,6 +20,7 @@ func InitController() {
 	//Create the groupes
 	baseGroup := router.Group("/")
     html.InitHomeRoutes(baseGroup)
+    html.InitEvenementsRoutes(baseGroup)
     router.Run("0.0.0.0:8001")
 
 }

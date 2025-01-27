@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS evenement (
     Description VARCHAR(512) NULL,
     Date DATETIME NOT NULL,
     DateCreation DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    Illustration BINARY(16) NULL,
+    Illustration VARCHAR(60) NULL,
     CreateurID BIGINT NOT NULL
 );
 

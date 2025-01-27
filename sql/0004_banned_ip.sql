@@ -1,0 +1,4 @@
+CREATE TABLE banned_ip (
+    Ip VARCHAR(20) PRIMARY KEY
+);
+

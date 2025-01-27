@@ -5,23 +5,22 @@ import (
 
 	"github.com/Cyber-cicco/jardin-pc/.gen/jardinpc/model"
 	"github.com/Cyber-cicco/jardin-pc/internal/service"
-	"github.com/Cyber-cicco/jardin-pc/internal/views/home"
+	"github.com/Cyber-cicco/jardin-pc/internal/views/evenements"
 	"github.com/gin-gonic/gin"
 )
 
-func InitHomeRoutes(r *gin.RouterGroup) {
-    r.GET("/", getHomePage)
-    r.GET("/home", getHomePage)
+func InitEvenementsRoutes(r *gin.RouterGroup) {
+    r.GET("/events", getEventsPage)
 }
 
-func getHomePage(c *gin.Context) {
+func getEventsPage(c *gin.Context) {
     evts, err := service.GetEvenements()
     if err != nil {
         evts = []*model.Evenement{}
     }
     if IsHtmxReq(c) {
-        c.HTML(http.StatusOK, "", home.InnerHome(evts)) 
+        c.HTML(http.StatusOK, "", evenements.InnerEvenements(evts)) 
         return
     }
-    c.HTML(http.StatusOK, "", home.Home(evts)) 
+    c.HTML(http.StatusOK, "", evenements.Evenements(evts)) 
 }
