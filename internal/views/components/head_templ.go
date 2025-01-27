@@ -26,7 +26,7 @@ func Head(title string) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><meta name=\"keywords\" content=\"HTML, CSS, JavaScript\"><meta name=\"author\" content=\"Abel Ciccoli\"><title>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><meta name=\"keywords\" content=\"Jardin Richolet Nantes Bellevue Saint-Herblain\"><meta name=\"author\" content=\"Abel Ciccoli\"><title>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -39,7 +39,7 @@ func Head(title string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</title><link href=\"/css/tailwind.css\" rel=\"stylesheet\"><link href=\"/css/background.css\" rel=\"stylesheet\"><link href=\"/css/animations.css\" rel=\"stylesheet\"><script defer src=\"/js/htmx.js\"></script></head>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</title><link href=\"/css/tailwind.css\" rel=\"stylesheet\"><link href=\"/css/background.css\" rel=\"stylesheet\"><link href=\"/css/animations.css\" rel=\"stylesheet\"><script defer src=\"/js/htmx.js\"></script><script defer src=\"/js/animations.js\"></script></head>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

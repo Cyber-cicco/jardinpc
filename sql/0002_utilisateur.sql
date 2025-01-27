@@ -5,6 +5,6 @@ CREATE TABLE utilisateur (
     Role VARCHAR(255) NOT NULL,
     DateCreation DATETIME NOT NULL,
     Password VARCHAR(60),
-    Email VARCHAR(255) NOT NULL,
+    Email VARCHAR(255) NOT NULL
 );
 
