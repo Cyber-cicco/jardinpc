@@ -1,0 +1,265 @@
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.fade-in{
+    animation: fadeIn 1.5s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+
+@keyframes fadeLeftAnimation {
+    0% {
+        transform: translateX(-100px);
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0px);
+    }
+}
+
+@keyframes fadeRightAnimation1 {
+    0% {
+        transform: translateX(100px);
+        opacity: 0;
+    }
+    50% {
+        transform: translateX(100px);
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0px);
+    }
+}
+@keyframes fadeRightAnimation {
+    0% {
+        transform: translateX(100px);
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0px);
+    }
+}
+@keyframes fadeUpAnimation {
+    0% {
+        transform: translateY(100px);
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}
+
+.fade-left{
+    animation: fadeLeftAnimation 1s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+
+.fade-right-1{
+    animation: fadeRightAnimation1 1.5s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+
+.fade-right{
+    animation: fadeRightAnimation 1s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+.fade-up{
+    animation: fadeUpAnimation 1s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+
+@keyframes fadeInAnimation {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes rotateMenuButton {
+    from {
+        transform: none;
+    }
+    to {
+        transform: rotateZ(180deg);
+    }
+}
+@keyframes up {
+    from {
+    }
+    to {
+        transform: translateY(-5px);
+        scale: 102%;
+    }
+}
+
+@keyframes carousel-left {
+    from {
+
+    }
+    to {
+        transform: translateX(-100%);
+    }
+}
+@keyframes decarousel-left {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0%);
+    }
+}
+
+@keyframes shrink {
+    from {
+    }
+    to {
+        scale: 100%;
+    }
+}
+@keyframes grow {
+    from {
+    }
+    to {
+        scale: 150%;
+    }
+}
+
+@keyframes rotateBackward {
+    from {
+        transform: rotateZ(180deg);
+    }
+    to {
+        transform: none;
+    }
+}
+
+@keyframes showModal {
+    from{
+
+    }
+    to {
+        right: 0;
+    }
+}
+
+@keyframes showModalLeft {
+    from{
+
+    }
+    to {
+        left: 0;
+    }
+}
+
+.modal-left{
+    animation-name: showModalLeft;
+    animation-duration: 0.30s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+}
+.modal{
+    animation-name: showModal;
+    animation-duration: 0.30s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+}
+
+.wrapper {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.5s ease-out;
+}
+
+.hovergrow:hover {
+    animation-name: grow;
+    animation-duration: 0.2s;
+    animation-fill-mode: both;
+    animation-timing-function: ease;
+}
+
+.hovergrow {
+    animation-name: shrink;
+    animation-duration: 0.2s;
+    animation-fill-mode: both;
+    animation-timing-function: ease;
+}
+
+.hoverzoom:hover {
+    animation-name: up;
+    animation-duration: 0.5s;
+    animation-fill-mode: both;
+    animation-timing-function: ease;
+}
+
+.translate100 {
+    transform: translateX(100%);
+}
+
+.decarouseled {
+    animation-name: decarousel-left;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease;
+}
+.carouseled {
+    animation-name: carousel-left;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease;
+}
+
+.sub-menu {
+    overflow: hidden;
+}
+
+.display-menu {
+    grid-template-rows: 1fr;
+}
+
+.rotatingButton {
+    animation-name: rotateMenuButton;
+    animation-duration: 0.75s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease;
+}
+
+.reverseRotationButton {
+    animation-name: rotateBackward;
+    animation-duration: 0.75s;
+    animation-fill-mode: backwards;
+    animation-timing-function: ease;
+}
+
+.rotato {
+    transform: translate(103px, -113px)  rotate(20deg);
+    transform-origin: 10px calc(100% - 10px); 
+}
+
+@keyframes showModalLeft {
+    from{
+
+    }
+    to {
+        left: 0;
+    }
+}
+
+.modal-left{
+    animation-name: showModalLeft;
+    animation-duration: 0.30s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+}
+

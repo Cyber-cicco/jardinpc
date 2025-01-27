@@ -1,0 +1,10 @@
+CREATE TABLE utilisateur (
+    ID BIGINT PRIMARY KEY AUTO_INCREMENT,
+    Prenom VARCHAR(120) NOT NULL,
+    Nom VARCHAR(120) NOT NULL,
+    Role VARCHAR(255) NOT NULL,
+    DateCreation DATETIME NOT NULL,
+    Password VARCHAR(60),
+    Email VARCHAR(255) NOT NULL,
+);
+
