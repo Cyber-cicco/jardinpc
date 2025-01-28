@@ -227,14 +227,14 @@ func EvenementsSection(evts []*model.Evenement) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</article><div class=\"text-blue-950\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</article><div class=\"text-blue-950 font-bold italic\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var8 string
 			templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(FormatFrenchDate(evt.Date))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/evenements/evenement.templ`, Line: 85, Col: 78}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/evenements/evenement.templ`, Line: 85, Col: 95}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 			if templ_7745c5c3_Err != nil {

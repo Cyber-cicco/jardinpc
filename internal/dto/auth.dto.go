@@ -30,11 +30,11 @@ type SignuResponseDto struct {
 }
 
 type UserChangeDto struct {
-	Identifiant          *string `json:"Identifiant"`
-	Prenom               *string `json:"Prenom"`
-	Nom                  *string `json:"Nom"`
-	Email                *string `json:"Email"`
-	NumTel               *string `json:"NumTel"`
+	Identifiant *string `json:"Identifiant"`
+	Prenom      *string `json:"Prenom"`
+	Nom         *string `json:"Nom"`
+	Email       *string `json:"Email"`
+	NumTel      *string `json:"NumTel"`
 }
 
 type AuthDto struct {
@@ -46,8 +46,8 @@ type AuthDto struct {
 }
 
 type LoginDto struct {
-	Email    string
-	Password string
+	Email    string `form:"email"`
+	Password string `form:"password"`
 }
 
 type PasswordRecoveryDto struct {
@@ -82,7 +82,6 @@ type InviteDto struct {
 
 type RequestMachineInfos struct {
 	useragent.UserAgent
-    Date time.Time
+	Date     time.Time
 	IpAdress string
 }
-

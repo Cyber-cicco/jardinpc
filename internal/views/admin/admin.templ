@@ -1,0 +1,43 @@
+package admin
+
+import "github.com/Cyber-cicco/jardin-pc/internal/views/components"
+
+templ Login() {
+	@components.Head("Jardin Pollen et Collemboles")
+	<body class="flex flex-col w-full">
+		<main id="main" class="flex h-screen w-full ">
+			<div class="flex bg-auth w-full">
+				<div class="lg:w-1/2"></div>
+				<section class="flex flex-col w-full p-2 lg:w-1/2 gap-5 border-green-400 border-2 shadow-green-400 text-blue-950 shadow-md bg-blue-50 items-center justify-center rounded-lg">
+					<h1 class="text-blue-950 text-center font-bold font-poppins text-3xl lg:text-6xl">Administration du jardin</h1>
+					<div class="w-full p-5">
+						@LoginForm(make(map[string]string))
+					</div>
+				</section>
+			</div>
+		</main>
+	</body>
+}
+
+templ LoginForm(errs map[string]string) {
+	<form id="admin-form" hx-post="/admin" hx-target="#admin-form" hx-swap="outerHTML" class="flex flex-col gap-2">
+		<div class="flex flex-col gap-2 w-full">
+			<label for="email"></label>
+			<input class="border-green-400 px-3 py-2 border-2 rounded-lg text-blue-950" name="email" id="email" type="text" value="" placeholder="ex: vincent@vincent.vincent"/>
+			<div class="text-red-500">{ errs["email"] }</div>
+		</div>
+		<div class="flex flex-col gap-2 w-full">
+			<label for="password"></label>
+			<input class="border-green-400 px-3 py-2 border-2 rounded-lg text-blue-950" name="password" id="password" type="password" value="" placeholder="ex: ●●●●●●●●●"/>
+			<div class="text-red-500">{ errs["password"] }</div>
+		</div>
+		<div class="flex w-full justify-center">
+			<button type="submit" class="flex items-center hover:cursor-pointer hover:brightness-150 font-bold justify-center bg-green-400 rounded-md px-4 py-2 text-white">
+				Me connecter
+			</button>
+		</div>
+		<div class="flex w-full justify-center">
+			<div class="text-red-500">{ errs["main"] }</div>
+		</div>
+	</form>
+}

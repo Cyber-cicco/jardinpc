@@ -1,0 +1,49 @@
+package admin
+
+import (
+	"github.com/Cyber-cicco/jardin-pc/.gen/jardinpc/model"
+	"github.com/Cyber-cicco/jardin-pc/internal/views/components"
+	"github.com/Cyber-cicco/jardin-pc/internal/views/evenements"
+)
+
+var DB_NAVS = []components.NavLink{
+	{
+		Name: "Événements",
+		Link: "/admin/events",
+	},
+	{
+		Name: "Utilisateurs",
+		Link: "/admin/users",
+	},
+}
+
+templ DashBoardNav(links []components.NavLink) {
+	<nav class="flex flex-col w-1/4 gap-2">
+		<ul>
+			for _, link := range links {
+				<li class="p-3">
+					<a class="" hx-push-url="true" hx-get={ link.Link } hx-target="#main" href={ templ.SafeURL(link.Link) }>
+						{ link.Name }
+					</a>
+				</li>
+			}
+		</ul>
+	</nav>
+}
+
+templ EvenementDashBoard(evts []*model.Evenement) {
+	<body class="flex w-full h-full">
+		@DashBoardNav(DB_NAVS)
+		<main class="flex flex-col bg-blue-50">
+			@EvenementDashBoardSection(evts)
+		</main>
+	</body>
+}
+
+templ EvenementDashBoardSection(evts []*model.Evenement) {
+	<section class="p-5 h-full w-full overflow-auto">
+		<h3 class="text-3xl font-poppins text-center text-blue-950">Gestion des événements</h3>
+		<button class="w-[50px] h-[50px] text-white rounded-full font-bold flex items-center justify-center">+</button>
+		@evenements.EvenementsSection(evts)
+	</section>
+}
