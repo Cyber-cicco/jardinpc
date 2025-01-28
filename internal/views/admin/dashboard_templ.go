@@ -43,7 +43,7 @@ func DashBoardNav(links []components.NavLink) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<nav class=\"flex flex-col w-1/4 gap-2\"><ul>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<nav class=\"flex flex-col bg-gray-200 w-1/4 gap-2\"><ul>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -160,11 +160,15 @@ func EvenementDashBoardSection(before, after []*model.Evenement) templ.Component
 			templ_7745c5c3_Var6 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<section class=\"p-5 h-full w-full overflow-auto\"><h3 class=\"text-3xl font-poppins text-center text-blue-950\">Gestion des événements</h3><button class=\"w-[50px] h-[50px] text-white rounded-full font-bold flex items-center justify-center\">+</button>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<section class=\"flex gap-10 flex-col p-5 h-full w-full overflow-auto\"><div class=\"flex items-center w-full gap-10 justify-center\"><h3 class=\"text-3xl font-poppins text-center text-blue-950\">Gestion des événements</h3></div><div class=\"flex gap-2 justify-self-end items-center justify-center\"><span class=\"font-bold text-blue-950 text-xl\">Ajouter</span> <button class=\"w-[40px] h-[40px] hover:cursor-pointer hover:brightness-150 text-white rounded-full bg-green-500 font-bold flex items-center justify-center\">+</button></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		templ_7745c5c3_Err = evenements.EvenementsSection(after).Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = evenements.EvenementsPasses(before).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

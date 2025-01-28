@@ -18,7 +18,7 @@ var DB_NAVS = []components.NavLink{
 }
 
 templ DashBoardNav(links []components.NavLink) {
-	<nav class="flex flex-col w-1/4 gap-2">
+	<nav class="flex flex-col bg-gray-200 w-1/4 gap-2">
 		<ul>
 			for _, link := range links {
 				<li class="p-3">
@@ -32,7 +32,7 @@ templ DashBoardNav(links []components.NavLink) {
 }
 
 templ EvenementDashBoard(before, after []*model.Evenement) {
-    @components.Head("Administration Jardin")
+	@components.Head("Administration Jardin")
 	<body class="flex w-full h-full">
 		@DashBoardNav(DB_NAVS)
 		<main class="flex flex-col bg-blue-50">
@@ -42,9 +42,15 @@ templ EvenementDashBoard(before, after []*model.Evenement) {
 }
 
 templ EvenementDashBoardSection(before, after []*model.Evenement) {
-	<section class="p-5 h-full w-full overflow-auto">
-		<h3 class="text-3xl font-poppins text-center text-blue-950">Gestion des événements</h3>
-		<button class="w-[50px] h-[50px] text-white rounded-full font-bold flex items-center justify-center">+</button>
+	<section class="flex gap-10 flex-col p-5 h-full w-full overflow-auto">
+		<div class="flex items-center w-full gap-10 justify-center">
+			<h3 class="text-3xl font-poppins text-center text-blue-950">Gestion des événements</h3>
+		</div>
+        <div class="flex gap-2 justify-self-end items-center justify-center">
+            <span class="font-bold text-blue-950 text-xl">Ajouter</span>
+            <button class="w-[40px] h-[40px] hover:cursor-pointer hover:brightness-150 text-white rounded-full bg-green-500 font-bold flex items-center justify-center">+</button>
+        </div>
 		@evenements.EvenementsSection(after)
+		@evenements.EvenementsPasses(before)
 	</section>
 }

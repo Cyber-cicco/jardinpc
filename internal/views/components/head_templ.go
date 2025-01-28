@@ -39,7 +39,7 @@ func Head(title string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</title><link href=\"/css/tailwind.css\" rel=\"stylesheet\"><link href=\"/css/background.css\" rel=\"stylesheet\"><link href=\"/css/animations.css\" rel=\"stylesheet\"><script defer src=\"/js/htmx.js\"></script><script defer src=\"/js/animations.js\"></script></head>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</title><link href=\"/css/tailwind.css\" rel=\"stylesheet\"><link href=\"/css/background.css\" rel=\"stylesheet\"><link href=\"/css/animations.css\" rel=\"stylesheet\"><script src=\"/js/htmx.js\"></script><script defer src=\"/js/animations.js\"></script></head>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
