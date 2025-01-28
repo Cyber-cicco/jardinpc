@@ -45,22 +45,11 @@ func CheckJWT(tokenString string) (*dto.AuthDto, error) {
 		if !ok {
 			return nil, errors.New("id of user could not be parsed from JWT")
 		}
-		username, ok := claims["username"].(string)
-		if !ok {
-			return nil, errors.New("username of user could not be parsed from JWT")
-		}
-
-		verified, ok := claims["verified"].(bool)
-		if !ok {
-			return nil, errors.New("verification of mail could not be parsed from JWT")
-		}
 
 		auth := dto.AuthDto{
 			Exp:      expiration,
 			Id:       id,
 			Roles:    roles,
-			UserName: username,
-			Verified: verified,
 		}
         return &auth, nil
 	} 

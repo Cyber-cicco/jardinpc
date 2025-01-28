@@ -31,19 +31,20 @@ templ DashBoardNav(links []components.NavLink) {
 	</nav>
 }
 
-templ EvenementDashBoard(evts []*model.Evenement) {
+templ EvenementDashBoard(before, after []*model.Evenement) {
+    @components.Head("Administration Jardin")
 	<body class="flex w-full h-full">
 		@DashBoardNav(DB_NAVS)
 		<main class="flex flex-col bg-blue-50">
-			@EvenementDashBoardSection(evts)
+			@EvenementDashBoardSection(before, after)
 		</main>
 	</body>
 }
 
-templ EvenementDashBoardSection(evts []*model.Evenement) {
+templ EvenementDashBoardSection(before, after []*model.Evenement) {
 	<section class="p-5 h-full w-full overflow-auto">
 		<h3 class="text-3xl font-poppins text-center text-blue-950">Gestion des événements</h3>
 		<button class="w-[50px] h-[50px] text-white rounded-full font-bold flex items-center justify-center">+</button>
-		@evenements.EvenementsSection(evts)
+		@evenements.EvenementsSection(after)
 	</section>
 }

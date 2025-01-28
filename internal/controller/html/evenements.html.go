@@ -14,7 +14,7 @@ func InitEvenementsRoutes(r *gin.RouterGroup) {
 }
 
 func getEventsPage(c *gin.Context) {
-    evts, err := service.GetEvenements()
+    evts, err := service.GetEvenementsAVenir()
     if err != nil {
         evts = []*model.Evenement{}
     }

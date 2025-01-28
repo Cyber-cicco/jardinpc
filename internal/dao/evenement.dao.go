@@ -24,3 +24,9 @@ func GetEvenementsAVenir() ([]*model.Evenement, error) {
 	return events, nil
 }
 
+func GetEvenements() ([]*model.Evenement, error) {
+    var events []*model.Evenement
+    return events, SELECT(Evenement.AllColumns).
+		FROM(Evenement).
+		WHERE(Evenement.Date.GT_EQ(CURRENT_TIMESTAMP())).Query(db, &events)
+}

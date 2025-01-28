@@ -15,7 +15,7 @@ func InitHomeRoutes(r *gin.RouterGroup) {
 }
 
 func getHomePage(c *gin.Context) {
-    evts, err := service.GetEvenements()
+    evts, err := service.GetEvenementsAVenir()
     if err != nil {
         evts = []*model.Evenement{}
     }

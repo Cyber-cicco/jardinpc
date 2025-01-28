@@ -1,8 +1,10 @@
 package html
 
 import (
+	"fmt"
 	"net/http"
 
+	"github.com/Cyber-cicco/jardin-pc/.gen/jardinpc/model"
 	"github.com/Cyber-cicco/jardin-pc/internal/dto"
 	"github.com/Cyber-cicco/jardin-pc/internal/middleware"
 	"github.com/Cyber-cicco/jardin-pc/internal/service"
@@ -13,6 +15,7 @@ import (
 func InitAdminRoutes(r_no_auth, r_auth *gin.RouterGroup) {
 	r_no_auth.GET("/admin", LoginPage)
 	r_no_auth.POST("/admin", Login)
+	r_auth.GET("/admin/events", EvenementsDashboard)
 }
 
 func LoginPage(c *gin.Context) {
@@ -46,22 +49,34 @@ func Login(c *gin.Context) {
 
 	if diags.IsNotEmpty() {
 		err_map = diags.Errors
-		c.HTML(http.StatusOK, "", admin.LoginForm(err_map))
+		c.HTML(http.StatusBadRequest, "", admin.LoginForm(err_map))
 		return
 	}
 
 	jwt, diags := service.BuildJWTToken(auth)
 
-	if diags != nil {
+	if diags.IsNotEmpty() {
 		err_map = diags.Errors
-		c.HTML(http.StatusOK, "", admin.LoginForm(err_map))
+        fmt.Printf("err_map: %v\n", err_map)
+		c.HTML(http.StatusBadRequest, "", admin.LoginForm(err_map))
 		return
 	}
 
 	setAuthCookie(c, jwt)
+    c.Header("HX-Retarget", "body")
+    c.Header("HX-Redirect", "/admin/events")
+    c.HTML(http.StatusFound, "", admin.Login())
 
-    c.Header("HX-Location", "/admin/events")
+}
 
-    c.HTML(http.StatusOK, "", admin.Login())
+func EvenementsDashboard(c *gin.Context) {
 
+    before, after, err := service.GetEvenements()
+
+    if err != nil {
+        before = []*model.Evenement{}
+        after = []*model.Evenement{}
+    }
+
+    c.HTML(http.StatusOK, "", admin.EvenementDashBoard(before, after))
 }

@@ -96,7 +96,7 @@ func DashBoardNav(links []components.NavLink) templ.Component {
 	})
 }
 
-func EvenementDashBoard(evts []*model.Evenement) templ.Component {
+func EvenementDashBoard(before, after []*model.Evenement) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
@@ -114,6 +114,10 @@ func EvenementDashBoard(evts []*model.Evenement) templ.Component {
 			templ_7745c5c3_Var5 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
+		templ_7745c5c3_Err = components.Head("Administration Jardin").Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<body class=\"flex w-full h-full\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -126,7 +130,7 @@ func EvenementDashBoard(evts []*model.Evenement) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = EvenementDashBoardSection(evts).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = EvenementDashBoardSection(before, after).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -138,7 +142,7 @@ func EvenementDashBoard(evts []*model.Evenement) templ.Component {
 	})
 }
 
-func EvenementDashBoardSection(evts []*model.Evenement) templ.Component {
+func EvenementDashBoardSection(before, after []*model.Evenement) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
@@ -160,7 +164,7 @@ func EvenementDashBoardSection(evts []*model.Evenement) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = evenements.EvenementsSection(evts).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = evenements.EvenementsSection(after).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
