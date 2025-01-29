@@ -10,6 +10,7 @@ import (
 	"github.com/Cyber-cicco/jardin-pc/internal/dto"
 	"github.com/Cyber-cicco/jardin-pc/internal/middleware"
 	"github.com/Cyber-cicco/jardin-pc/internal/service"
+	"github.com/Cyber-cicco/jardin-pc/internal/utils"
 	"github.com/Cyber-cicco/jardin-pc/internal/views/admin"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
@@ -19,8 +20,10 @@ func InitAdminRoutes(r_no_auth, r_auth *gin.RouterGroup) {
 	r_no_auth.GET("/admin", LoginPage)
 	r_no_auth.POST("/admin", Login)
 	r_auth.GET("/admin/events", EvenementsDashboard)
+    r_auth.GET("/admin/events/:id/edit", GetEventModal)
 	r_auth.POST("/admin/events", AddEvenement)
     r_auth.DELETE("/admin/events/:id", DeleteEvenement)
+	r_auth.GET("/admin/users", UtilisateurDashBoard)
 }
 
 func LoginPage(c *gin.Context) {
@@ -78,11 +81,18 @@ func UtilisateurDashBoard(c *gin.Context) {
 
     users, err := service.GetUtilisateurs()
     if err != nil {
+        fmt.Printf("err: %v\n", err)
         users = []*model.Utilisateur{}
     }
 
-    c.HTML(http.StatusOK, "", admin.DashBoardUtilisateurs(users))
+    if IsHtmxReq(c) {
+        c.HTML(http.StatusOK, "", admin.UtilisateursDashBoardSection(users))
+        return
+    }
+
+    c.HTML(http.StatusOK, "", admin.UtilisateursDashBoard(users))
 }
+
 
 func EvenementsDashboard(c *gin.Context) {
 
@@ -156,4 +166,34 @@ func DeleteEvenement(c *gin.Context) {
 
     service.DeleteEvenement(int64(id))
     DashBoardSection(c)
+}
+
+func GetEventModal(c *gin.Context) {
+    id_param := c.Param("id")
+    id, err := strconv.Atoi(id_param)
+    if err != nil {
+        fmt.Printf("err: %v\n", err)
+        c.Header("HX-Retarget", "#inner")
+        DashBoardSection(c)
+        return
+    }
+
+    evt, err := service.GetEvenementParId(int64(id))
+    if err != nil {
+        fmt.Printf("err: %v\n", err)
+        c.Header("HX-Retarget", "#inner")
+        DashBoardSection(c)
+        return
+    }
+
+    err_map := make(map[string]string)
+    value_map := make(map[string]string)
+
+    value_map["title"] = evt.Title
+    if evt.Description != nil {
+        value_map["description"] = *evt.Description
+    }
+    value_map["date"] = evt.Date.Format(utils.DATE_TIME_LAYOUT)
+
+    c.HTML(http.StatusOK, "", admin.ModalAddEvt(err_map, value_map, false))
 }

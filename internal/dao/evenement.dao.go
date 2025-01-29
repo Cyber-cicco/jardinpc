@@ -43,3 +43,11 @@ func DeleteEvenement(id int64) error {
     _, err := Evenement.DELETE().WHERE(Evenement.ID.EQ(Int(id))).Exec(db)
     return err
 }
+
+func GetEvtById(id int64) (*model.Evenement, error) {
+    evt := model.Evenement{}
+    stmt := SELECT(Evenement.ID, Evenement.Description, Evenement.Title, Evenement.Date).
+        FROM(Evenement).
+        WHERE(Evenement.ID.EQ(Int(id)))
+    return &evt, stmt.Query(db, &evt)
+}

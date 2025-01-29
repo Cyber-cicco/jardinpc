@@ -1,9 +1,10 @@
 package admin
 
 import (
+	"fmt"
 	"github.com/Cyber-cicco/jardin-pc/.gen/jardinpc/model"
 	"github.com/Cyber-cicco/jardin-pc/internal/views/components"
-	"fmt"
+	"github.com/Cyber-cicco/jardin-pc/internal/views/components/svg"
 )
 
 var DB_NAVS = []components.NavLink{
@@ -21,10 +22,8 @@ templ DashBoardNav(links []components.NavLink) {
 	<nav class="flex flex-col bg-gradient-to-b from-green-400 to-green-500 w-64 min-h-screen p-4 shadow-lg border-r-2 border-green-400">
 		<div class="mb-8 p-2">
 			<div class="flex items-center gap-2 text-white">
-				<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none">
-					<path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-				</svg>
 				<h1 class="text-xl font-bold font-poppins">Administration</h1>
+				@svg.DollarSvg()
 			</div>
 		</div>
 		<ul class="space-y-2">
@@ -34,16 +33,15 @@ templ DashBoardNav(links []components.NavLink) {
 						hx-push-url="true"
 						hx-get={ link.Link }
 						hx-target="#inner"
+						hx-swap="outerHTML"
 						href={ templ.SafeURL(link.Link) }
 						class="flex items-center gap-3 p-3 text-white rounded-lg transition-all duration-200 hover:bg-green-600 hover:shadow-md hover:translate-x-1"
 					>
-						<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none">
-							if link.Name == "Événements" {
-								<path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"></path>
-							} else if link.Name == "Utilisateurs" {
-								<path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"></path>
-							}
-						</svg>
+						if link.Name == "Événements" {
+							@svg.EventsSvg()
+						} else if link.Name == "Utilisateurs" {
+							@svg.UserSvg()
+						}
 						<span class="font-medium">{ link.Name }</span>
 					</a>
 				</li>
@@ -54,9 +52,7 @@ templ DashBoardNav(links []components.NavLink) {
 				href="/"
 				class="flex items-center gap-3 p-3 text-white rounded-lg hover:bg-green-600 transition-colors"
 			>
-				<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none">
-					<path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"></path>
-				</svg>
+				@svg.ReturnSvg()
 				<span>Retour au site</span>
 			</a>
 		</div>
@@ -79,13 +75,13 @@ templ AddEvtForm(err_map map[string]string, value_map map[string]string) {
 			<label class="text-blue-950 font-medium" for="title">Titre</label>
 			<input
 				class="border-green-400 px-3 py-2 border-2 rounded-lg text-blue-950"
-                value={ value_map["title"] }
+				value={ value_map["title"] }
 				type="text"
 				id="title"
 				name="title"
 				required
 			/>
-            <div class="h-6 text-red-500">{ err_map["title"]}</div>
+			<div class="h-6 text-red-500">{ err_map["title"] }</div>
 		</div>
 		<div class="flex flex-col gap-2">
 			<label class="text-blue-950 font-medium" for="description">Description</label>
@@ -93,9 +89,9 @@ templ AddEvtForm(err_map map[string]string, value_map map[string]string) {
 				class="border-green-400 px-3 py-2 border-2 rounded-lg text-blue-950 h-32"
 				id="description"
 				name="description"
-                value={ value_map["description"] }
+				value={ value_map["description"] }
 			></textarea>
-            <div class="h-6 text-red-500">{ err_map["description"]}</div>
+			<div class="h-6 text-red-500">{ err_map["description"] }</div>
 		</div>
 		<div class="flex flex-col gap-2">
 			<label class="text-blue-950 font-medium" for="date">Date</label>
@@ -104,10 +100,10 @@ templ AddEvtForm(err_map map[string]string, value_map map[string]string) {
 				type="datetime-local"
 				id="date"
 				name="date"
-                value={ value_map["date"] }
+				value={ value_map["date"] }
 				required
 			/>
-            <div class="h-6 text-red-500">{ err_map["date"]}</div>
+			<div class="h-6 text-red-500">{ err_map["date"] }</div>
 		</div>
 		<div class="flex justify-end gap-3 mt-4">
 			<button
@@ -127,139 +123,84 @@ templ AddEvtForm(err_map map[string]string, value_map map[string]string) {
 	</form>
 }
 
-templ ModalAddEvt(error_map map[string]string, value_map map[string]string) {
+templ ModalAddEvt(error_map map[string]string, value_map map[string]string, hidden bool) {
 	<!-- Modale -->
-	<div data-modal="ajouter_evt" hidden="true" class="fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50">
+	<div id="modal_evt" data-modal="ajouter_evt" hidden?={ hidden } class="fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50">
 		<div class="flex w-full h-full justify-center items-center">
 			<div class="bg-blue-50 p-6 rounded-lg w-full max-w-2xl mx-4 border-2 border-green-400 shadow-md">
 				<div class="flex justify-between items-center mb-4">
 					<h2 class="text-2xl font-bold text-blue-950">Nouvel événement</h2>
 					<button onclick="this.closest('[data-modal]').hidden = true" class="text-blue-950 hover:text-green-600 text-2xl">&times;</button>
 				</div>
-                @AddEvtForm(error_map, value_map)
+				@AddEvtForm(error_map, value_map)
 			</div>
 		</div>
 	</div>
 }
 
-templ EvenementsTab(before, after []*model.Evenement) {
-    <div class="flex flex-col w-full gap-8">
-        <!-- Section Événements à venir -->
-        <div class="bg-white rounded-lg w-full shadow-md p-6">
-            <h4 class="text-xl font-bold text-blue-950 mb-4">Événements à venir</h4>
-            <table class="w-full">
-                <thead class="bg-green-50">
-                    <tr>
-                        <th class="text-left py-3 px-4 text-blue-950">Titre</th>
-                        <th class="text-left py-3 px-4 text-blue-950">Description</th>
-                        <th class="text-left py-3 px-4 text-blue-950">Date</th>
-                        <th class="text-left py-3 px-4 text-blue-950">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    for _, event := range after {
-                        <tr class="border-t border-green-100 hover:bg-green-50">
-                            <td class="py-3 px-4 text-blue-950">{ event.Title }</td>
-                            <td class="py-3 px-4 text-blue-950">
-                                if event.Description != nil {
-                                    if len(*event.Description) > 50 {
-                                        { (*event.Description)[:50] }...
-                                    } else {
-                                        { *event.Description }
-                                    }
-                                }
-                            </td>
-                            <td class="py-3 px-4 text-blue-950">{ event.Date.Format("02/01/2006 15:04") }</td>
-                            <td class="py-3 px-4 text-blue-950">
-                                <div class="flex gap-2">
-                                    <button
-                                        hx-get={ "/admin/events/" + fmt.Sprintf("%d", event.ID) + "/edit" }
-                                        hx-target="#inner"
-                                        hx-swap="outerHTML"
-                                        class="p-2 text-green-600 hover:bg-green-100 rounded-md"
-                                    >
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
-                                        </svg>
-                                    </button>
-                                    <button
-                                        hx-delete={ "/admin/events/" + fmt.Sprintf("%d", event.ID) }
-                                        hx-target="#inner"
-                                        hx-swap="outerHTML"
-                                        hx-confirm="Êtes-vous sûr de vouloir supprimer cet événement ?"
-                                        class="p-2 text-red-600 hover:bg-red-100 rounded-md"
-                                    >
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
-                                        </svg>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+templ EvenementsGenericTab(evts []*model.Evenement) {
+	<table class="w-full">
+		<thead class="bg-green-50">
+			<tr>
+				<th class="text-left py-3 px-4 text-blue-950">Titre</th>
+				<th class="text-left py-3 px-4 text-blue-950">Description</th>
+				<th class="text-left py-3 px-4 text-blue-950">Date</th>
+				<th class="text-left py-3 px-4 text-blue-950">Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			for _, event := range evts {
+				<tr class="border-t border-green-100 hover:bg-green-50">
+					<td class="py-3 px-4 text-blue-950">{ event.Title }</td>
+					<td class="py-3 px-4 text-blue-950">
+						if event.Description != nil {
+							if len(*event.Description) > 50 {
+								{ (*event.Description)[:50] }...
+							} else {
+								{ *event.Description }
+							}
+						}
+					</td>
+					<td class="py-3 px-4 text-blue-950">{ event.Date.Format("02/01/2006 15:04") }</td>
+					<td class="py-3 px-4 text-blue-950">
+						<div class="flex gap-2">
+							<button
+								hx-get={ "/admin/events/" + fmt.Sprintf("%d", event.ID) + "/edit" }
+								hx-target="#modal_evt"
+								hx-swap="outerHTML"
+								class="p-2 text-green-600 hover:bg-green-100 rounded-md"
+							>
+								@svg.PenSvg()
+							</button>
+							<button
+								hx-delete={ "/admin/events/" + fmt.Sprintf("%d", event.ID) }
+								hx-target="#inner"
+								hx-swap="outerHTML"
+								hx-confirm="Êtes-vous sûr de vouloir supprimer cet événement ?"
+								class="p-2 text-red-600 hover:bg-red-100 rounded-md"
+							>
+								@svg.DeleteSvg()
+							</button>
+						</div>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
 
-        <!-- Section Événements passés -->
-        <div class="bg-white rounded-lg shadow-md p-6">
-            <h4 class="text-xl font-bold text-blue-950 mb-4">Événements passés</h4>
-            <table class="w-full">
-                <thead class="bg-green-50">
-                    <tr>
-                        <th class="text-left py-3 px-4 text-blue-950">Titre</th>
-                        <th class="text-left py-3 px-4 text-blue-950">Description</th>
-                        <th class="text-left py-3 px-4 text-blue-950">Date</th>
-                        <th class="text-left py-3 px-4 text-blue-950">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    for _, event := range before {
-                        <tr class="border-t border-green-100 hover:bg-green-50">
-                            <td class="py-3 px-4 text-blue-950">{ event.Title }</td>
-                            <td class="py-3 px-4 text-blue-950">
-                                if event.Description != nil {
-                                    if len(*event.Description) > 50 {
-                                        { (*event.Description)[:50] }...
-                                    } else {
-                                        { *event.Description }
-                                    }
-                                }
-                            </td>
-                            <td class="py-3 px-4 text-blue-950">{ event.Date.Format("02/01/2006 15:04") }</td>
-                            <td class="py-3 px-4 text-blue-950">
-                                <div class="flex gap-2">
-                                    <button
-                                        hx-get={ "/admin/events/" + fmt.Sprintf("%d", event.ID) + "/edit" }
-                                        hx-target="#inner"
-                                        hx-swap="outerHTML"
-                                        class="p-2 text-green-600 hover:bg-green-100 rounded-md"
-                                    >
-                                        <!-- Icône crayon -->
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
-                                        </svg>
-                                    </button>
-                                    <button
-                                        hx-delete={ "/admin/events/" + fmt.Sprintf("%d", event.ID) }
-                                        hx-target="#inner"
-                                        hx-swap="outerHTML"
-                                        hx-confirm="Êtes-vous sûr de vouloir supprimer cet événement ?"
-                                        class="p-2 text-red-600 hover:bg-red-100 rounded-md"
-                                    >
-                                        <!-- Icône poubelle -->
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
-                                        </svg>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    </div>
+templ EvenementsTab(before, after []*model.Evenement) {
+	<div class="flex flex-col w-full gap-8">
+		<!-- Section Événements à venir -->
+		<div class="bg-white rounded-lg w-full shadow-md p-6">
+			<h4 class="text-xl font-bold text-blue-950 mb-4">Événements à venir</h4>
+			@EvenementsGenericTab(after)
+		</div>
+		<div class="bg-white rounded-lg shadow-md p-6">
+			<h4 class="text-xl font-bold text-blue-950 mb-4">Événements passés</h4>
+			@EvenementsGenericTab(before)
+		</div>
+	</div>
 }
 
 templ EvenementDashBoardSection(before, after []*model.Evenement) {
@@ -272,18 +213,79 @@ templ EvenementDashBoardSection(before, after []*model.Evenement) {
 			<button data-modal-trigger="ajouter_evt" class="w-[40px] h-[40px] hover:cursor-pointer hover:brightness-150 text-white rounded-full bg-green-500 font-bold flex items-center justify-center">+</button>
 		</div>
 		@EvenementsTab(before, after)
-        <script>
+		<script>
             document.querySelectorAll("[data-modal]").forEach((el) => el.hidden = true)
         </script>
 	</section>
-    @ModalAddEvt(make(map[string]string), make(map[string]string))
+	@ModalAddEvt(make(map[string]string), make(map[string]string), true)
 }
 
-templ DashBoardUtilisateurs(users []*model.Utilisateur) {
+templ UtilisateursDashBoard(users []*model.Utilisateur) {
 	@components.Head("Administration Jardin")
 	<body class="flex w-full h-full">
 		@DashBoardNav(DB_NAVS)
-		<main class="flex flex-col bg-blue-50">
-		</main>
+		<main class="flex flex-col w-full bg-blue-50">
+            @UtilisateursDashBoardSection(users)
+        </main>
 	</body>
+}
+
+templ UtilisateursDashBoardSection(users []*model.Utilisateur) {
+	<section id="inner" class="flex gap-10 flex-col p-5 h-full w-full overflow-auto">
+		<div class="flex items-center w-full gap-10 justify-center">
+			<h3 class="text-3xl font-poppins text-center text-blue-950">Gestion des utilisateurs</h3>
+		</div>
+		<div class="bg-white rounded-lg w-full shadow-md p-6">
+			<h4 class="text-xl font-bold text-blue-950 mb-4">Utilisateurs</h4>
+            @UtilisateursTab(users)
+		</div>
+		<script>
+            document.querySelectorAll("[data-modal]").forEach((el) => el.hidden = true)
+        </script>
+	</section>
+}
+
+templ UtilisateursTab(users []*model.Utilisateur) {
+	<table class="w-full">
+		<thead class="bg-green-50">
+			<tr>
+				<th class="text-left py-3 px-4 text-blue-950">Nom</th>
+				<th class="text-left py-3 px-4 text-blue-950">Prenom</th>
+				<th class="text-left py-3 px-4 text-blue-950">Email</th>
+				<th class="text-left py-3 px-4 text-blue-950">Roles</th>
+				<th class="text-left py-3 px-4 text-blue-950">Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			for _, user := range users {
+				<tr class="border-t border-green-100 hover:bg-green-50">
+					<td class="py-3 px-4 text-blue-950">{ user.Nom }</td>
+					<td class="py-3 px-4 text-blue-950">{ user.Prenom }</td>
+					<td class="py-3 px-4 text-blue-950">{ user.Email }</td>
+					<td class="py-3 px-4 text-blue-950">{ user.Role }</td>
+					<td class="py-3 px-4 text-blue-950">
+						<div class="flex gap-2">
+							<button
+								hx-get={ "/admin/events/" + fmt.Sprintf("%d", user.ID) + "/edit" }
+								hx-target="#modal_evt"
+								hx-swap="outerHTML"
+								class="p-2 text-green-600 hover:bg-green-100 rounded-md"
+							>
+								@svg.PenSvg()
+							</button>
+							<button
+								hx-delete={ "/admin/users/" + fmt.Sprintf("%d", user.ID) }
+								hx-target="#inner"
+								hx-swap="outerHTML"
+								hx-confirm="Êtes-vous sûr de vouloir supprimer cet événement ?"
+								class="p-2 text-red-600 hover:bg-red-100 rounded-md"
+							>
+								@svg.DeleteSvg()
+							</button>
+						</div>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
 }
