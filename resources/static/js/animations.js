@@ -6,6 +6,20 @@ htmx.onLoad(function (content) {
     var fadeRights = $$('[data-fade-right]');
     var fadeUps = $$('[data-fade-up]');
     var counts = $$('[data-count]');
+    var modalTriggers = $$('[data-modal-trigger]')
+    console.log(modalTriggers)
+
+    modalTriggers.forEach(trigger => {
+        trigger.addEventListener('click', function() {
+            const modalId = this.getAttribute('data-modal-trigger');
+            const modal = document.querySelector(`[data-modal="${modalId}"]`);
+            if (modal) {
+                modal.hidden = false; // Remove hidden property
+            }
+        });
+    });
+
+
     var observerContructor = (animation) => {
         return new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {

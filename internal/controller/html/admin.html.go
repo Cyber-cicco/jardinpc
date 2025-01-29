@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/Cyber-cicco/jardin-pc/.gen/jardinpc/model"
+	"github.com/Cyber-cicco/jardin-pc/internal/config"
 	"github.com/Cyber-cicco/jardin-pc/internal/dto"
 	"github.com/Cyber-cicco/jardin-pc/internal/middleware"
 	"github.com/Cyber-cicco/jardin-pc/internal/service"
@@ -79,4 +80,26 @@ func EvenementsDashboard(c *gin.Context) {
     }
 
     c.HTML(http.StatusOK, "", admin.EvenementDashBoard(before, after))
+}
+
+func AddEvenement(c *gin.Context) {
+
+    var evt model.Evenement
+    auth := c.MustGet(config.AuthKey).(dto.AuthDto)
+
+    err_map := make(map[string]string)
+    value_map := make(map[string]string)
+    err := c.Bind(&evt)
+    if err != nil {
+        c.Header("HX-Retarget", "form")
+        c.HTML(http.StatusOK, "", admin.AddEvtForm(err_map, value_map))
+    }
+
+    value_map["title"] = evt.Title
+    if evt.Description != nil {
+        value_map["description"] = *evt.Description
+    }
+    value_map["date"] = evt.Date.String()
+
+    service.AddEvenement(int64(auth.Id), &evt)
 }
