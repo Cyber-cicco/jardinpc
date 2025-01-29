@@ -22,7 +22,7 @@ type Validator interface {
 func GetDiagnostics(statusCode int) *Diagnostics {
     return &Diagnostics{
         statusCode,
-        map[string]string{},
+        make(map[string]string),
     }
 }
 func (d *Diagnostics) PushIfBlank(val string, field string, message string) bool {

@@ -36,22 +36,17 @@ func AddEvenement(user_id int64, dto *dto.EvenementDto) (*model.Evenement, *vali
 	if diags.IsNotEmpty() {
 		return nil, diags
 	}
-    t, err := dto.ParseDate()
-    if err != nil {
-        diags.AppendError("date", "Invalid date format")
-        return nil, diags
-    }
     evt := &model.Evenement{
     	Title:        dto.Title,
     	Description:  dto.Description,
-    	Date:         t,
+    	Date:         dto.Date,
     	DateCreation: time.Now(),
     	CreateurID:   user_id,
     }
-	evt, err = dao.InsertEvenement(evt)
+    evt, err := dao.InsertEvenement(evt)
 	if err != nil {
 		diags.AppendError("main", "La création de l'événement a échoué pour une raison liée au serveur")
 		return nil, diags
 	}
-	return evt, nil
+	return evt, diags
 }

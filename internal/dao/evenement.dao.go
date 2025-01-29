@@ -13,7 +13,8 @@ func GetEvenementsAVenir() ([]*model.Evenement, error) {
 	var events []*model.Evenement
 	query := SELECT(Evenement.AllColumns).
 		FROM(Evenement).
-		WHERE(Evenement.Date.GT_EQ(CURRENT_TIMESTAMP()))
+		WHERE(Evenement.Date.GT_EQ(CURRENT_TIMESTAMP())).
+        ORDER_BY(Evenement.Date.ASC())
 
     fmt.Printf("query.DebugSql(): %v\n", query.DebugSql())
 	if err := query.Query(db, &events); err != nil {
@@ -28,7 +29,9 @@ func GetEvenements() ([]*model.Evenement, error) {
     var events []*model.Evenement
     return events, SELECT(Evenement.AllColumns).
 		FROM(Evenement).
-		WHERE(Evenement.Date.GT_EQ(CURRENT_TIMESTAMP())).Query(db, &events)
+		WHERE(Evenement.Date.GT_EQ(CURRENT_TIMESTAMP())).
+        ORDER_BY(Evenement.Date.ASC()).
+        Query(db, &events)
 }
 
 func InsertEvenement(evt *model.Evenement) (*model.Evenement, error) {

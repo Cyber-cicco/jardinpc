@@ -325,7 +325,7 @@ func EvenementDashBoardSection(before, after []*model.Evenement) templ.Component
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</section>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<script>\n            document.querySelectorAll(\"[data-modal]\").forEach((el) => el.hidden = true)\n        </script></section>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

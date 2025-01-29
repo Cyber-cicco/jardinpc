@@ -103,7 +103,7 @@ func AddEvenement(c *gin.Context) {
     if evt.Description != nil {
         value_map["description"] = *evt.Description
     }
-    value_map["date"] = evt.Date
+    value_map["date"] = evt.Date.String()
 
     _, diags := service.AddEvenement(int64(auth.Id), &evt)
 

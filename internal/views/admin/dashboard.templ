@@ -153,6 +153,9 @@ templ EvenementDashBoardSection(before, after []*model.Evenement) {
 		</div>
 		@evenements.EvenementsSection(after)
 		@evenements.EvenementsPasses(before)
+        <script>
+            document.querySelectorAll("[data-modal]").forEach((el) => el.hidden = true)
+        </script>
 	</section>
     @ModalAddEvt(make(map[string]string), make(map[string]string))
 }
