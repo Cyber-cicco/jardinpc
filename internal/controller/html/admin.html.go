@@ -3,6 +3,7 @@ package html
 import (
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/Cyber-cicco/jardin-pc/.gen/jardinpc/model"
 	"github.com/Cyber-cicco/jardin-pc/internal/config"
@@ -19,6 +20,7 @@ func InitAdminRoutes(r_no_auth, r_auth *gin.RouterGroup) {
 	r_no_auth.POST("/admin", Login)
 	r_auth.GET("/admin/events", EvenementsDashboard)
 	r_auth.POST("/admin/events", AddEvenement)
+    r_auth.DELETE("/admin/events/:id", DeleteEvenement)
 }
 
 func LoginPage(c *gin.Context) {
@@ -72,9 +74,24 @@ func Login(c *gin.Context) {
 
 }
 
+func UtilisateurDashBoard(c *gin.Context) {
+
+    users, err := service.GetUtilisateurs()
+    if err != nil {
+        users = []*model.Utilisateur{}
+    }
+
+    c.HTML(http.StatusOK, "", admin.DashBoardUtilisateurs(users))
+}
+
 func EvenementsDashboard(c *gin.Context) {
 
     before, after, err := service.GetEvenements()
+
+    if IsHtmxReq(c) {
+        DashBoardSection(c)
+        return
+    }
 
     if err != nil {
         before = []*model.Evenement{}
@@ -114,6 +131,11 @@ func AddEvenement(c *gin.Context) {
         return
     }
 
+    DashBoardSection(c)
+}
+
+func DashBoardSection(c *gin.Context) {
+
     before, after, err := service.GetEvenements()
 
     if err != nil {
@@ -122,4 +144,16 @@ func AddEvenement(c *gin.Context) {
     }
 
     c.HTML(http.StatusOK, "", admin.EvenementDashBoardSection(before, after))
+}
+
+func DeleteEvenement(c *gin.Context) {
+    id_param := c.Param("id")
+    id, err := strconv.Atoi(id_param)
+    if err != nil {
+        DashBoardSection(c)
+        return
+    }
+
+    service.DeleteEvenement(int64(id))
+    DashBoardSection(c)
 }

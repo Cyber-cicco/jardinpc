@@ -50,3 +50,7 @@ func AddEvenement(user_id int64, dto *dto.EvenementDto) (*model.Evenement, *vali
 	}
 	return evt, diags
 }
+
+func DeleteEvenement(id int64) error {
+    return dao.DeleteEvenement(id)
+}

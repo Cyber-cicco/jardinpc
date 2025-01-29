@@ -38,3 +38,8 @@ func InsertEvenement(evt *model.Evenement) (*model.Evenement, error) {
     _, err := Evenement.INSERT(Evenement.AllColumns).MODEL(evt).Exec(db)
     return evt, err
 }
+
+func DeleteEvenement(id int64) error {
+    _, err := Evenement.DELETE().WHERE(Evenement.ID.EQ(Int(id))).Exec(db)
+    return err
+}

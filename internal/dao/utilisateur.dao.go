@@ -164,4 +164,7 @@ func PersistUtilisateurChange(user *dto.UserChangeDto, userId int64, binary []by
 	return FindUserById(userId)
 }
 
-
+func GetUtilisateurs() ([]*model.Utilisateur, error) {
+    var users []*model.Utilisateur
+    return users, SELECT(Utilisateur.AllColumns.Except(Utilisateur.Password, Utilisateur.ActivationLink)).Query(db, &users)
+}
