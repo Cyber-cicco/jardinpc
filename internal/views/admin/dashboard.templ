@@ -74,17 +74,18 @@ templ EvenementDashBoard(before, after []*model.Evenement) {
 }
 
 templ AddEvtForm(err_map map[string]string, value_map map[string]string) {
-	<form class="flex flex-col gap-4" hx-post="/admin/events" hx-target="#main" hx-swap="outerHTML">
+	<form id="form" class="flex flex-col gap-4" hx-post="/admin/events" hx-target="#inner" hx-swap="outerHTML">
 		<div class="flex flex-col gap-2">
 			<label class="text-blue-950 font-medium" for="title">Titre</label>
 			<input
 				class="border-green-400 px-3 py-2 border-2 rounded-lg text-blue-950"
+                value={ value_map["title"] }
 				type="text"
 				id="title"
 				name="title"
 				required
 			/>
-            <div class="h-6 text-red-500"></div>
+            <div class="h-6 text-red-500">{ err_map["title"]}</div>
 		</div>
 		<div class="flex flex-col gap-2">
 			<label class="text-blue-950 font-medium" for="description">Description</label>
@@ -92,7 +93,9 @@ templ AddEvtForm(err_map map[string]string, value_map map[string]string) {
 				class="border-green-400 px-3 py-2 border-2 rounded-lg text-blue-950 h-32"
 				id="description"
 				name="description"
+                value={ value_map["description"] }
 			></textarea>
+            <div class="h-6 text-red-500">{ err_map["description"]}</div>
 		</div>
 		<div class="flex flex-col gap-2">
 			<label class="text-blue-950 font-medium" for="date">Date</label>
@@ -101,8 +104,10 @@ templ AddEvtForm(err_map map[string]string, value_map map[string]string) {
 				type="datetime-local"
 				id="date"
 				name="date"
+                value={ value_map["date"] }
 				required
 			/>
+            <div class="h-6 text-red-500">{ err_map["date"]}</div>
 		</div>
 		<div class="flex justify-end gap-3 mt-4">
 			<button
@@ -122,7 +127,7 @@ templ AddEvtForm(err_map map[string]string, value_map map[string]string) {
 	</form>
 }
 
-templ ModalAddEvt() {
+templ ModalAddEvt(error_map map[string]string, value_map map[string]string) {
 	<!-- Modale -->
 	<div data-modal="ajouter_evt" hidden="true" class="fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50">
 		<div class="flex w-full h-full justify-center items-center">
@@ -130,15 +135,15 @@ templ ModalAddEvt() {
 				<div class="flex justify-between items-center mb-4">
 					<h2 class="text-2xl font-bold text-blue-950">Nouvel événement</h2>
 					<button onclick="this.closest('[data-modal]').hidden = true" class="text-blue-950 hover:text-green-600 text-2xl">&times;</button>
-                    @AddEvtForm()
 				</div>
+                @AddEvtForm(error_map, value_map)
 			</div>
 		</div>
 	</div>
 }
 
 templ EvenementDashBoardSection(before, after []*model.Evenement) {
-	<section class="flex gap-10 flex-col p-5 h-full w-full overflow-auto">
+	<section id="inner" class="flex gap-10 flex-col p-5 h-full w-full overflow-auto">
 		<div class="flex items-center w-full gap-10 justify-center">
 			<h3 class="text-3xl font-poppins text-center text-blue-950">Gestion des événements</h3>
 		</div>
@@ -149,5 +154,5 @@ templ EvenementDashBoardSection(before, after []*model.Evenement) {
 		@evenements.EvenementsSection(after)
 		@evenements.EvenementsPasses(before)
 	</section>
-    @ModalAddEvt()
+    @ModalAddEvt(make(map[string]string), make(map[string]string))
 }

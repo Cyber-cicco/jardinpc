@@ -175,7 +175,85 @@ func AddEvtForm(err_map map[string]string, value_map map[string]string) templ.Co
 			templ_7745c5c3_Var6 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form class=\"flex flex-col gap-4\" hx-post=\"/admin/events\" hx-target=\"#main\" hx-swap=\"outerHTML\"><div class=\"flex flex-col gap-2\"><label class=\"text-blue-950 font-medium\" for=\"title\">Titre</label> <input class=\"border-green-400 px-3 py-2 border-2 rounded-lg text-blue-950\" type=\"text\" id=\"title\" name=\"title\" required><div class=\"h-6 text-red-500\"></div></div><div class=\"flex flex-col gap-2\"><label class=\"text-blue-950 font-medium\" for=\"description\">Description</label> <textarea class=\"border-green-400 px-3 py-2 border-2 rounded-lg text-blue-950 h-32\" id=\"description\" name=\"description\"></textarea></div><div class=\"flex flex-col gap-2\"><label class=\"text-blue-950 font-medium\" for=\"date\">Date</label> <input class=\"border-green-400 px-3 py-2 border-2 rounded-lg text-blue-950\" type=\"datetime-local\" id=\"date\" name=\"date\" required></div><div class=\"flex justify-end gap-3 mt-4\"><button type=\"button\" onclick=\"this.closest(&#39;[data-modal]&#39;).hidden = true\" class=\"px-4 py-2 bg-gray-300 text-blue-950 rounded-md hover:brightness-150\">Annuler</button> <button type=\"submit\" class=\"px-4 py-2 bg-green-400 text-white rounded-md hover:brightness-150 font-bold\">Créer l'événement</button></div></form>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form id=\"form\" class=\"flex flex-col gap-4\" hx-post=\"/admin/events\" hx-target=\"#inner\" hx-swap=\"outerHTML\"><div class=\"flex flex-col gap-2\"><label class=\"text-blue-950 font-medium\" for=\"title\">Titre</label> <input class=\"border-green-400 px-3 py-2 border-2 rounded-lg text-blue-950\" value=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var7 string
+		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(value_map["title"])
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/admin/dashboard.templ`, Line: 82, Col: 42}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" type=\"text\" id=\"title\" name=\"title\" required><div class=\"h-6 text-red-500\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var8 string
+		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(err_map["title"])
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/admin/dashboard.templ`, Line: 88, Col: 60}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div><div class=\"flex flex-col gap-2\"><label class=\"text-blue-950 font-medium\" for=\"description\">Description</label> <textarea class=\"border-green-400 px-3 py-2 border-2 rounded-lg text-blue-950 h-32\" id=\"description\" name=\"description\" value=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var9 string
+		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(value_map["description"])
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/admin/dashboard.templ`, Line: 96, Col: 48}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"></textarea><div class=\"h-6 text-red-500\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var10 string
+		templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(err_map["description"])
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/admin/dashboard.templ`, Line: 98, Col: 66}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div><div class=\"flex flex-col gap-2\"><label class=\"text-blue-950 font-medium\" for=\"date\">Date</label> <input class=\"border-green-400 px-3 py-2 border-2 rounded-lg text-blue-950\" type=\"datetime-local\" id=\"date\" name=\"date\" value=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var11 string
+		templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(value_map["date"])
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/admin/dashboard.templ`, Line: 107, Col: 41}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" required><div class=\"h-6 text-red-500\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var12 string
+		templ_7745c5c3_Var12, templ_7745c5c3_Err = templ.JoinStringErrs(err_map["date"])
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/admin/dashboard.templ`, Line: 110, Col: 59}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var12))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div><div class=\"flex justify-end gap-3 mt-4\"><button type=\"button\" onclick=\"this.closest(&#39;[data-modal]&#39;).hidden = true\" class=\"px-4 py-2 bg-gray-300 text-blue-950 rounded-md hover:brightness-150\">Annuler</button> <button type=\"submit\" class=\"px-4 py-2 bg-green-400 text-white rounded-md hover:brightness-150 font-bold\">Créer l'événement</button></div></form>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -183,7 +261,7 @@ func AddEvtForm(err_map map[string]string, value_map map[string]string) templ.Co
 	})
 }
 
-func ModalAddEvt() templ.Component {
+func ModalAddEvt(error_map map[string]string, value_map map[string]string) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
@@ -196,20 +274,20 @@ func ModalAddEvt() templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var7 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var7 == nil {
-			templ_7745c5c3_Var7 = templ.NopComponent
+		templ_7745c5c3_Var13 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var13 == nil {
+			templ_7745c5c3_Var13 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<!-- Modale --><div data-modal=\"ajouter_evt\" hidden=\"true\" class=\"fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50\"><div class=\"flex w-full h-full justify-center items-center\"><div class=\"bg-blue-50 p-6 rounded-lg w-full max-w-2xl mx-4 border-2 border-green-400 shadow-md\"><div class=\"flex justify-between items-center mb-4\"><h2 class=\"text-2xl font-bold text-blue-950\">Nouvel événement</h2><button onclick=\"this.closest(&#39;[data-modal]&#39;).hidden = true\" class=\"text-blue-950 hover:text-green-600 text-2xl\">&times;</button>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<!-- Modale --><div data-modal=\"ajouter_evt\" hidden=\"true\" class=\"fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50\"><div class=\"flex w-full h-full justify-center items-center\"><div class=\"bg-blue-50 p-6 rounded-lg w-full max-w-2xl mx-4 border-2 border-green-400 shadow-md\"><div class=\"flex justify-between items-center mb-4\"><h2 class=\"text-2xl font-bold text-blue-950\">Nouvel événement</h2><button onclick=\"this.closest(&#39;[data-modal]&#39;).hidden = true\" class=\"text-blue-950 hover:text-green-600 text-2xl\">&times;</button></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = AddEvtForm().Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = AddEvtForm(error_map, value_map).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div></div></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -230,12 +308,12 @@ func EvenementDashBoardSection(before, after []*model.Evenement) templ.Component
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var8 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var8 == nil {
-			templ_7745c5c3_Var8 = templ.NopComponent
+		templ_7745c5c3_Var14 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var14 == nil {
+			templ_7745c5c3_Var14 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<section class=\"flex gap-10 flex-col p-5 h-full w-full overflow-auto\"><div class=\"flex items-center w-full gap-10 justify-center\"><h3 class=\"text-3xl font-poppins text-center text-blue-950\">Gestion des événements</h3></div><div class=\"flex gap-2 justify-self-end items-center justify-center\"><span class=\"font-bold text-blue-950 text-xl\">Ajouter</span> <button data-modal-trigger=\"ajouter_evt\" class=\"w-[40px] h-[40px] hover:cursor-pointer hover:brightness-150 text-white rounded-full bg-green-500 font-bold flex items-center justify-center\">+</button></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<section id=\"inner\" class=\"flex gap-10 flex-col p-5 h-full w-full overflow-auto\"><div class=\"flex items-center w-full gap-10 justify-center\"><h3 class=\"text-3xl font-poppins text-center text-blue-950\">Gestion des événements</h3></div><div class=\"flex gap-2 justify-self-end items-center justify-center\"><span class=\"font-bold text-blue-950 text-xl\">Ajouter</span> <button data-modal-trigger=\"ajouter_evt\" class=\"w-[40px] h-[40px] hover:cursor-pointer hover:brightness-150 text-white rounded-full bg-green-500 font-bold flex items-center justify-center\">+</button></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -251,7 +329,7 @@ func EvenementDashBoardSection(before, after []*model.Evenement) templ.Component
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = ModalAddEvt().Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = ModalAddEvt(make(map[string]string), make(map[string]string)).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

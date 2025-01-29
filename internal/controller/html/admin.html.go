@@ -11,12 +11,14 @@ import (
 	"github.com/Cyber-cicco/jardin-pc/internal/service"
 	"github.com/Cyber-cicco/jardin-pc/internal/views/admin"
 	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin/binding"
 )
 
 func InitAdminRoutes(r_no_auth, r_auth *gin.RouterGroup) {
 	r_no_auth.GET("/admin", LoginPage)
 	r_no_auth.POST("/admin", Login)
 	r_auth.GET("/admin/events", EvenementsDashboard)
+	r_auth.POST("/admin/events", AddEvenement)
 }
 
 func LoginPage(c *gin.Context) {
@@ -50,7 +52,7 @@ func Login(c *gin.Context) {
 
 	if diags.IsNotEmpty() {
 		err_map = diags.Errors
-		c.HTML(http.StatusBadRequest, "", admin.LoginForm(err_map))
+		c.HTML(http.StatusOK, "", admin.LoginForm(err_map))
 		return
 	}
 
@@ -84,22 +86,40 @@ func EvenementsDashboard(c *gin.Context) {
 
 func AddEvenement(c *gin.Context) {
 
-    var evt model.Evenement
-    auth := c.MustGet(config.AuthKey).(dto.AuthDto)
+    var evt dto.EvenementDto
+    auth := c.MustGet(config.AuthKey).(*dto.AuthDto)
 
     err_map := make(map[string]string)
     value_map := make(map[string]string)
-    err := c.Bind(&evt)
+    err := c.ShouldBindWith(&evt, binding.Form)
     if err != nil {
+        fmt.Printf("err: %v\n", err)
         c.Header("HX-Retarget", "form")
         c.HTML(http.StatusOK, "", admin.AddEvtForm(err_map, value_map))
+        return
     }
 
     value_map["title"] = evt.Title
     if evt.Description != nil {
         value_map["description"] = *evt.Description
     }
-    value_map["date"] = evt.Date.String()
+    value_map["date"] = evt.Date
 
-    service.AddEvenement(int64(auth.Id), &evt)
+    _, diags := service.AddEvenement(int64(auth.Id), &evt)
+
+    if diags.IsNotEmpty() {
+        c.Header("HX-Retarget", "form")
+        err_map = diags.Errors
+        c.HTML(http.StatusOK, "", admin.AddEvtForm(err_map, value_map))
+        return
+    }
+
+    before, after, err := service.GetEvenements()
+
+    if err != nil {
+        before = []*model.Evenement{}
+        after = []*model.Evenement{}
+    }
+
+    c.HTML(http.StatusOK, "", admin.EvenementDashBoardSection(before, after))
 }

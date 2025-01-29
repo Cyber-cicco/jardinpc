@@ -30,3 +30,8 @@ func GetEvenements() ([]*model.Evenement, error) {
 		FROM(Evenement).
 		WHERE(Evenement.Date.GT_EQ(CURRENT_TIMESTAMP())).Query(db, &events)
 }
+
+func InsertEvenement(evt *model.Evenement) (*model.Evenement, error) {
+    _, err := Evenement.INSERT(Evenement.AllColumns).MODEL(evt).Exec(db)
+    return evt, err
+}
