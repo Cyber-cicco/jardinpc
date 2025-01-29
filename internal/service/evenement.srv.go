@@ -58,3 +58,15 @@ func DeleteEvenement(id int64) error {
 func GetEvenementParId(id int64) (*model.Evenement, error) {
     return dao.GetEvtById(id)
 }
+
+func ModifyEvent(dto *dto.EvenementDto, evt_id int64) *validator.Diagnostics {
+	diags := validator.ValidateEvenement(dto)
+	if diags.IsNotEmpty() {
+		return diags
+	}
+    err := dao.ModifyEvent(dto, evt_id)
+    if err != nil {
+        diags.AppendError("main", err.Error())
+    }
+    return diags
+}

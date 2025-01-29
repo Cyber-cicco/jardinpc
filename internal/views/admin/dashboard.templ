@@ -71,68 +71,99 @@ templ EvenementDashBoard(before, after []*model.Evenement) {
 
 templ AddEvtForm(err_map map[string]string, value_map map[string]string) {
 	<form id="form" class="flex flex-col gap-4" hx-post="/admin/events" hx-target="#inner" hx-swap="outerHTML">
-		<div class="flex flex-col gap-2">
-			<label class="text-blue-950 font-medium" for="title">Titre</label>
-			<input
-				class="border-green-400 px-3 py-2 border-2 rounded-lg text-blue-950"
-				value={ value_map["title"] }
-				type="text"
-				id="title"
-				name="title"
-				required
-			/>
-			<div class="h-6 text-red-500">{ err_map["title"] }</div>
-		</div>
-		<div class="flex flex-col gap-2">
-			<label class="text-blue-950 font-medium" for="description">Description</label>
-			<textarea
-				class="border-green-400 px-3 py-2 border-2 rounded-lg text-blue-950 h-32"
-				id="description"
-				name="description"
-				value={ value_map["description"] }
-			></textarea>
-			<div class="h-6 text-red-500">{ err_map["description"] }</div>
-		</div>
-		<div class="flex flex-col gap-2">
-			<label class="text-blue-950 font-medium" for="date">Date</label>
-			<input
-				class="border-green-400 px-3 py-2 border-2 rounded-lg text-blue-950"
-				type="datetime-local"
-				id="date"
-				name="date"
-				value={ value_map["date"] }
-				required
-			/>
-			<div class="h-6 text-red-500">{ err_map["date"] }</div>
-		</div>
-		<div class="flex justify-end gap-3 mt-4">
-			<button
-				type="button"
-				onclick="this.closest('[data-modal]').hidden = true"
-				class="px-4 py-2 bg-gray-300 text-blue-950 rounded-md hover:brightness-150"
-			>
-				Annuler
-			</button>
-			<button
-				type="submit"
-				class="px-4 py-2 bg-green-400 text-white rounded-md hover:brightness-150 font-bold"
-			>
-				Créer l'événement
-			</button>
-		</div>
+		@InnerForm(err_map, value_map)
 	</form>
 }
 
+templ ModifyEventForm(err_map map[string]string, value_map map[string]string, event_id int64) {
+	<form
+		id="form"
+		class="flex flex-col gap-4"
+		hx-put={ "/admin/events/" + fmt.Sprintf("%d", event_id) + "/edit" }
+		hx-target="#inner"
+		hx-swap="outerHTML"
+	>
+		@InnerForm(err_map, value_map)
+	</form>
+}
+
+templ InnerForm(err_map map[string]string, value_map map[string]string) {
+	<div class="flex flex-col gap-2">
+		<label class="text-blue-950 font-medium" for="title">Titre</label>
+		<input
+			class="border-green-400 px-3 py-2 border-2 rounded-lg text-blue-950"
+			value={ value_map["title"] }
+			type="text"
+			id="title"
+			name="title"
+			required
+		/>
+		<div class="h-6 text-red-500">{ err_map["title"] }</div>
+	</div>
+	<div class="flex flex-col gap-2">
+		<label class="text-blue-950 font-medium" for="description">Description</label>
+		<textarea
+			class="border-green-400 px-3 py-2 border-2 rounded-lg text-blue-950 h-32"
+			id="description"
+			name="description"
+		> { value_map["description"] }</textarea>
+		<div class="h-6 text-red-500">{ err_map["description"] }</div>
+	</div>
+	<div class="flex flex-col gap-2">
+		<label class="text-blue-950 font-medium" for="date">Date</label>
+		<input
+			class="border-green-400 px-3 py-2 border-2 rounded-lg text-blue-950"
+			type="datetime-local"
+			id="date"
+			name="date"
+			value={ value_map["date"] }
+			required
+		/>
+		<div class="h-6 text-red-500">{ err_map["date"] }</div>
+	</div>
+	<div class="flex justify-end gap-3 mt-4">
+		<button
+			type="button"
+			onclick="this.closest('[data-modal]').hidden = true"
+			class="px-4 py-2 bg-gray-300 text-blue-950 rounded-md hover:brightness-150"
+		>
+			Annuler
+		</button>
+		<button
+			type="submit"
+			class="px-4 py-2 bg-green-400 text-white rounded-md hover:brightness-150 font-bold"
+		>
+			Publier
+		</button>
+	</div>
+}
+
 templ ModalAddEvt(error_map map[string]string, value_map map[string]string, hidden bool) {
+	@Modale(hidden, "ajouter_evt") {
+		<div class="flex justify-between items-center mb-4">
+			<h2 class="text-2xl font-bold text-blue-950">Nouvel événement</h2>
+			<button onclick="this.closest('[data-modal]').hidden = true" class="text-blue-950 hover:text-green-600 text-2xl">&times;</button>
+		</div>
+		@AddEvtForm(error_map, value_map)
+	}
+}
+
+templ ModaleModifyEvent(error_map map[string]string, value_map map[string]string, hidden bool, event_id int64) {
+	@Modale(hidden, "modifier_evt") {
+		<div class="flex justify-between items-center mb-4">
+			<h2 class="text-2xl font-bold text-blue-950">Modifier l'événement</h2>
+			<button onclick="this.closest('[data-modal]').hidden = true" class="text-blue-950 hover:text-green-600 text-2xl">&times;</button>
+		</div>
+		@ModifyEventForm(error_map, value_map, event_id)
+	}
+}
+
+templ Modale(hidden bool, id string) {
 	<!-- Modale -->
-	<div id="modal_evt" data-modal="ajouter_evt" hidden?={ hidden } class="fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50">
+	<div id="modal_evt" data-modal={ id } hidden?={ hidden } class="fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50">
 		<div class="flex w-full h-full justify-center items-center">
 			<div class="bg-blue-50 p-6 rounded-lg w-full max-w-2xl mx-4 border-2 border-green-400 shadow-md">
-				<div class="flex justify-between items-center mb-4">
-					<h2 class="text-2xl font-bold text-blue-950">Nouvel événement</h2>
-					<button onclick="this.closest('[data-modal]').hidden = true" class="text-blue-950 hover:text-green-600 text-2xl">&times;</button>
-				</div>
-				@AddEvtForm(error_map, value_map)
+				{ children... }
 			</div>
 		</div>
 	</div>
@@ -166,7 +197,7 @@ templ EvenementsGenericTab(evts []*model.Evenement) {
 						<div class="flex gap-2">
 							<button
 								hx-get={ "/admin/events/" + fmt.Sprintf("%d", event.ID) + "/edit" }
-								hx-target="#modal_evt"
+								hx-target="#modal_evt_modify"
 								hx-swap="outerHTML"
 								class="p-2 text-green-600 hover:bg-green-100 rounded-md"
 							>
@@ -213,11 +244,12 @@ templ EvenementDashBoardSection(before, after []*model.Evenement) {
 			<button data-modal-trigger="ajouter_evt" class="w-[40px] h-[40px] hover:cursor-pointer hover:brightness-150 text-white rounded-full bg-green-500 font-bold flex items-center justify-center">+</button>
 		</div>
 		@EvenementsTab(before, after)
+        @ModalAddEvt(make(map[string]string), make(map[string]string), true)
+        <div id="modal_evt_modify"></div>
 		<script>
             document.querySelectorAll("[data-modal]").forEach((el) => el.hidden = true)
         </script>
 	</section>
-	@ModalAddEvt(make(map[string]string), make(map[string]string), true)
 }
 
 templ UtilisateursDashBoard(users []*model.Utilisateur) {
@@ -225,8 +257,8 @@ templ UtilisateursDashBoard(users []*model.Utilisateur) {
 	<body class="flex w-full h-full">
 		@DashBoardNav(DB_NAVS)
 		<main class="flex flex-col w-full bg-blue-50">
-            @UtilisateursDashBoardSection(users)
-        </main>
+			@UtilisateursDashBoardSection(users)
+		</main>
 	</body>
 }
 
@@ -237,7 +269,7 @@ templ UtilisateursDashBoardSection(users []*model.Utilisateur) {
 		</div>
 		<div class="bg-white rounded-lg w-full shadow-md p-6">
 			<h4 class="text-xl font-bold text-blue-950 mb-4">Utilisateurs</h4>
-            @UtilisateursTab(users)
+			@UtilisateursTab(users)
 		</div>
 		<script>
             document.querySelectorAll("[data-modal]").forEach((el) => el.hidden = true)

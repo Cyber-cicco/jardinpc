@@ -5,6 +5,7 @@ import (
 
 	"github.com/Cyber-cicco/jardin-pc/.gen/jardinpc/model"
 	. "github.com/Cyber-cicco/jardin-pc/.gen/jardinpc/table"
+	"github.com/Cyber-cicco/jardin-pc/internal/dto"
 	. "github.com/go-jet/jet/v2/mysql"
 )
 
@@ -50,4 +51,17 @@ func GetEvtById(id int64) (*model.Evenement, error) {
         FROM(Evenement).
         WHERE(Evenement.ID.EQ(Int(id)))
     return &evt, stmt.Query(db, &evt)
+}
+
+func ModifyEvent(dto *dto.EvenementDto, evt_id int64) error {
+
+    stmt := Evenement.UPDATE().
+        SET(
+            Evenement.Title.SET(String(dto.Title)),
+            Evenement.Description.SET(String(*dto.Description)),
+            Evenement.Date.SET(DateTimeT(dto.Date)),
+        ).
+        WHERE(Evenement.ID.EQ(Int(evt_id)))
+    _, err := stmt.Exec(db)
+    return err
 }

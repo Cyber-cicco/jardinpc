@@ -31,7 +31,7 @@ func NavBar(links []NavLink) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<nav class=\"flex bg-green-500 items-center p-2\"><div class=\"w-1/3\"><h2 class=\"text-white px-2 font-bold text-lg\">Jardin Pollen et Collomboles</h2></div><ul class=\"flex flex-row gap-5 px-4 justify-end w-2/3\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<nav class=\"flex bg-green-500 items-center p-2\"><div class=\"w-1/3 \"><h2 class=\"text-white hidden lg:block px-2 font-bold text-lg\">Jardin Pollen et Collomboles</h2></div><ul class=\"flex flex-row gap-5 px-4 justify-end w-2/3\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

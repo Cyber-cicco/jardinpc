@@ -20,9 +20,10 @@ func InitAdminRoutes(r_no_auth, r_auth *gin.RouterGroup) {
 	r_no_auth.GET("/admin", LoginPage)
 	r_no_auth.POST("/admin", Login)
 	r_auth.GET("/admin/events", EvenementsDashboard)
-    r_auth.GET("/admin/events/:id/edit", GetEventModal)
+	r_auth.GET("/admin/events/:id/edit", GetEventModal)
+	r_auth.PUT("/admin/events/:id/edit", PutEvenement)
 	r_auth.POST("/admin/events", AddEvenement)
-    r_auth.DELETE("/admin/events/:id", DeleteEvenement)
+	r_auth.DELETE("/admin/events/:id", DeleteEvenement)
 	r_auth.GET("/admin/users", UtilisateurDashBoard)
 }
 
@@ -65,135 +66,178 @@ func Login(c *gin.Context) {
 
 	if diags.IsNotEmpty() {
 		err_map = diags.Errors
-        fmt.Printf("err_map: %v\n", err_map)
+		fmt.Printf("err_map: %v\n", err_map)
 		c.HTML(http.StatusBadRequest, "", admin.LoginForm(err_map))
 		return
 	}
 
 	setAuthCookie(c, jwt)
-    c.Header("HX-Retarget", "body")
-    c.Header("HX-Redirect", "/admin/events")
-    c.HTML(http.StatusFound, "", admin.Login())
+	c.Header("HX-Retarget", "body")
+	c.Header("HX-Redirect", "/admin/events")
+	c.HTML(http.StatusFound, "", admin.Login())
 
 }
 
 func UtilisateurDashBoard(c *gin.Context) {
 
-    users, err := service.GetUtilisateurs()
-    if err != nil {
-        fmt.Printf("err: %v\n", err)
-        users = []*model.Utilisateur{}
-    }
+	users, err := service.GetUtilisateurs()
+	if err != nil {
+		fmt.Printf("err: %v\n", err)
+		users = []*model.Utilisateur{}
+	}
 
-    if IsHtmxReq(c) {
-        c.HTML(http.StatusOK, "", admin.UtilisateursDashBoardSection(users))
-        return
-    }
+	if IsHtmxReq(c) {
+		c.HTML(http.StatusOK, "", admin.UtilisateursDashBoardSection(users))
+		return
+	}
 
-    c.HTML(http.StatusOK, "", admin.UtilisateursDashBoard(users))
+	c.HTML(http.StatusOK, "", admin.UtilisateursDashBoard(users))
 }
-
 
 func EvenementsDashboard(c *gin.Context) {
 
-    before, after, err := service.GetEvenements()
+	before, after, err := service.GetEvenements()
 
-    if IsHtmxReq(c) {
-        DashBoardSection(c)
-        return
-    }
+	if IsHtmxReq(c) {
+		DashBoardSection(c)
+		return
+	}
 
-    if err != nil {
-        before = []*model.Evenement{}
-        after = []*model.Evenement{}
-    }
+	if err != nil {
+		before = []*model.Evenement{}
+		after = []*model.Evenement{}
+	}
 
-    c.HTML(http.StatusOK, "", admin.EvenementDashBoard(before, after))
+	c.HTML(http.StatusOK, "", admin.EvenementDashBoard(before, after))
+}
+
+type AddEvtInfos struct {
+	err_map map[string]string
+	val_map map[string]string
+	evt     dto.EvenementDto
+}
+
+func SetUpEvenement(c *gin.Context) (*AddEvtInfos, error) {
+	var evt dto.EvenementDto
+
+	err_map := make(map[string]string)
+	value_map := make(map[string]string)
+	err := c.ShouldBindWith(&evt, binding.Form)
+	if err != nil {
+		return nil, err
+	}
+
+	value_map["title"] = evt.Title
+	if evt.Description != nil {
+		value_map["description"] = *evt.Description
+	}
+	value_map["date"] = evt.Date.String()
+	return &AddEvtInfos{
+		err_map: err_map,
+		val_map: value_map,
+		evt:     evt,
+	}, err
+
 }
 
 func AddEvenement(c *gin.Context) {
 
-    var evt dto.EvenementDto
-    auth := c.MustGet(config.AuthKey).(*dto.AuthDto)
+	evt_infos, err := SetUpEvenement(c)
+	if err != nil {
+		c.HTML(http.StatusOK, "", admin.AddEvtForm(evt_infos.err_map, evt_infos.val_map))
+		return
+	}
 
-    err_map := make(map[string]string)
-    value_map := make(map[string]string)
-    err := c.ShouldBindWith(&evt, binding.Form)
-    if err != nil {
-        fmt.Printf("err: %v\n", err)
-        c.Header("HX-Retarget", "form")
-        c.HTML(http.StatusOK, "", admin.AddEvtForm(err_map, value_map))
-        return
-    }
+	auth := c.MustGet(config.AuthKey).(*dto.AuthDto)
+	_, diags := service.AddEvenement(int64(auth.Id), &evt_infos.evt)
 
-    value_map["title"] = evt.Title
-    if evt.Description != nil {
-        value_map["description"] = *evt.Description
-    }
-    value_map["date"] = evt.Date.String()
+	if diags.IsNotEmpty() {
+		c.Header("HX-Retarget", "form")
+		evt_infos.err_map = diags.Errors
+		c.HTML(http.StatusOK, "", admin.AddEvtForm(evt_infos.err_map, evt_infos.val_map))
+		return
+	}
 
-    _, diags := service.AddEvenement(int64(auth.Id), &evt)
-
-    if diags.IsNotEmpty() {
-        c.Header("HX-Retarget", "form")
-        err_map = diags.Errors
-        c.HTML(http.StatusOK, "", admin.AddEvtForm(err_map, value_map))
-        return
-    }
-
-    DashBoardSection(c)
+	DashBoardSection(c)
 }
 
 func DashBoardSection(c *gin.Context) {
 
-    before, after, err := service.GetEvenements()
+	before, after, err := service.GetEvenements()
 
-    if err != nil {
-        before = []*model.Evenement{}
-        after = []*model.Evenement{}
-    }
+	if err != nil {
+		before = []*model.Evenement{}
+		after = []*model.Evenement{}
+	}
 
-    c.HTML(http.StatusOK, "", admin.EvenementDashBoardSection(before, after))
+	c.HTML(http.StatusOK, "", admin.EvenementDashBoardSection(before, after))
 }
 
 func DeleteEvenement(c *gin.Context) {
-    id_param := c.Param("id")
-    id, err := strconv.Atoi(id_param)
-    if err != nil {
-        DashBoardSection(c)
-        return
-    }
+	id_param := c.Param("id")
+	id, err := strconv.Atoi(id_param)
+	if err != nil {
+		DashBoardSection(c)
+		return
+	}
 
-    service.DeleteEvenement(int64(id))
-    DashBoardSection(c)
+	service.DeleteEvenement(int64(id))
+	DashBoardSection(c)
 }
 
 func GetEventModal(c *gin.Context) {
-    id_param := c.Param("id")
-    id, err := strconv.Atoi(id_param)
-    if err != nil {
-        fmt.Printf("err: %v\n", err)
-        c.Header("HX-Retarget", "#inner")
-        DashBoardSection(c)
-        return
-    }
+	id_param := c.Param("id")
+	id, err := strconv.Atoi(id_param)
+	if err != nil {
+		fmt.Printf("err: %v\n", err)
+		c.Header("HX-Retarget", "#inner")
+		DashBoardSection(c)
+		return
+	}
 
-    evt, err := service.GetEvenementParId(int64(id))
-    if err != nil {
-        fmt.Printf("err: %v\n", err)
-        c.Header("HX-Retarget", "#inner")
-        DashBoardSection(c)
-        return
-    }
+	evt, err := service.GetEvenementParId(int64(id))
+	if err != nil {
+		fmt.Printf("err: %v\n", err)
+		c.Header("HX-Retarget", "#inner")
+		DashBoardSection(c)
+		return
+	}
 
-    err_map := make(map[string]string)
-    value_map := make(map[string]string)
+	err_map := make(map[string]string)
+	value_map := make(map[string]string)
 
-    value_map["title"] = evt.Title
-    if evt.Description != nil {
-        value_map["description"] = *evt.Description
-    }
-    value_map["date"] = evt.Date.Format(utils.DATE_TIME_LAYOUT)
+	value_map["title"] = evt.Title
+	if evt.Description != nil {
+		value_map["description"] = *evt.Description
+	}
+	value_map["date"] = evt.Date.Format(utils.DATE_TIME_LAYOUT)
 
-    c.HTML(http.StatusOK, "", admin.ModalAddEvt(err_map, value_map, false))
+	c.HTML(http.StatusOK, "", admin.ModaleModifyEvent(err_map, value_map, false, evt.ID))
+}
+
+func PutEvenement(c *gin.Context) {
+
+	id_param := c.Param("id")
+	id, err := strconv.Atoi(id_param)
+	if err != nil {
+		fmt.Printf("err: %v\n", err)
+		c.Header("HX-Retarget", "#inner")
+		DashBoardSection(c)
+		return
+	}
+	evt_infos, err := SetUpEvenement(c)
+	if err != nil {
+		c.HTML(http.StatusOK, "", admin.ModaleModifyEvent(evt_infos.err_map, evt_infos.val_map, false, int64(id)))
+		return
+	}
+
+	diags := service.ModifyEvent(&evt_infos.evt, int64(id))
+
+	if diags.IsNotEmpty() {
+		c.Header("HX-Retarget", "form")
+		evt_infos.err_map = diags.Errors
+		c.HTML(http.StatusOK, "", admin.ModifyEventForm(evt_infos.err_map, evt_infos.val_map, int64(id)))
+		return
+	}
+	DashBoardSection(c)
 }
