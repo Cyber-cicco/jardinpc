@@ -1,0 +1,28 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8001:8001"
+    environment:
+      DB_HOST: jardin-db:3306  
+      DB_USER_JARDIN: ${DB_USER_JARDIN}
+      DB_PASS_JARDIN: ${DB_PASS_JARDIN}
+      JARDIN_JWT_SECRET: ${JARDIN_JWT_SECRET}
+      JARDIN_DB_NAME: jardinpc
+    depends_on:
+      - jardin-db
+
+  jardin-db:
+    image: mariadb:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASS}
+      MYSQL_USER: ${DB_USER_JARDIN}
+      MYSQL_PASSWORD: ${DB_PASS_JARDIN}
+      MYSQL_DATABASE: jardinpc
+      TZ: Europe/Paris
+      MYSQL_CHARSET: utf8mb4
+      MYSQL_COLLATION: utf8mb4_unicode_ci
+    volumes:
+      - ./sql/init:/docker-entrypoint-initdb.d
+    ports:
+      - "3306:3306"

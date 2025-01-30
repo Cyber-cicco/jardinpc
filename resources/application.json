@@ -1,12 +1,12 @@
 {
     "database" : {
-        "db-user" : "${DBUSER_JARDIN}",
-        "db-password" : "${DBPASS_JARDIN}",
+        "db-user" : "${DB_USER_JARDIN}",
+        "db-password" : "${DB_PASS_JARDIN}",
         "db-name" : "jardinpc",
-        "db-adress" : "localhost:3306"
+        "db-adress" : "${DB_HOST}"
     },
     "jwt" : {
-        "secret" : "${JARDIN_JWTSECRET}"
+        "secret" : "${JARDIN_JWT_SECRET}"
     }
 }
 

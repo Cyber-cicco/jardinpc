@@ -1,0 +1,36 @@
+CREATE TABLE IF NOT EXISTS evenement (
+    ID BIGINT PRIMARY KEY AUTO_INCREMENT,
+    Title VARCHAR(60) NOT NULL,
+    Description VARCHAR(512) NULL,
+    Date DATETIME NOT NULL,
+    DateCreation DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    Illustration VARCHAR(60) NULL,
+    CreateurID BIGINT NOT NULL
+);
+
+
+CREATE TABLE utilisateur (
+    ID BIGINT PRIMARY KEY AUTO_INCREMENT,
+    Prenom VARCHAR(120) NOT NULL,
+    Nom VARCHAR(120) NOT NULL,
+    Role VARCHAR(255) NOT NULL,
+    DateCreation DATETIME NOT NULL,
+    Password VARCHAR(60),
+    Email VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE forgotten_password_attempt (
+    ID BIGINT PRIMARY KEY AUTO_INCREMENT,
+    DateDemande DATETIME NOT NULL,
+    LienChangement BINARY(16) NOT NULL,
+    Active TINYINT(1) DEFAULT 1 NOT NULL,
+    UtilisateurID BIGINT NOT NULL
+);
+
+CREATE TABLE banned_ip (
+    Ip VARCHAR(20) PRIMARY KEY
+);
+
+ALTER TABLE evenement ADD CONSTRAINT FK_EVT_1 FOREIGN KEY(CreateurID) REFERENCES utilisateur(ID);
+ALTER TABLE forgotten_password_attempt ADD CONSTRAINT FOREIGN KEY(UtilisateurID) REFERENCES utilisateur(ID);
+
