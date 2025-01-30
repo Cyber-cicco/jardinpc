@@ -30,7 +30,6 @@ func GetEvenements() ([]*model.Evenement, error) {
     var events []*model.Evenement
     return events, SELECT(Evenement.AllColumns).
 		FROM(Evenement).
-		WHERE(Evenement.Date.GT_EQ(CURRENT_TIMESTAMP())).
         ORDER_BY(Evenement.Date.ASC()).
         Query(db, &events)
 }

@@ -139,7 +139,7 @@ templ InnerForm(err_map map[string]string, value_map map[string]string) {
 }
 
 templ ModalAddEvt(error_map map[string]string, value_map map[string]string, hidden bool) {
-	@Modale(hidden, "ajouter_evt") {
+	@Modale(hidden, "modal_evt") {
 		<div class="flex justify-between items-center mb-4">
 			<h2 class="text-2xl font-bold text-blue-950">Nouvel événement</h2>
 			<button onclick="this.closest('[data-modal]').hidden = true" class="text-blue-950 hover:text-green-600 text-2xl">&times;</button>
@@ -149,7 +149,7 @@ templ ModalAddEvt(error_map map[string]string, value_map map[string]string, hidd
 }
 
 templ ModaleModifyEvent(error_map map[string]string, value_map map[string]string, hidden bool, event_id int64) {
-	@Modale(hidden, "modifier_evt") {
+	@Modale(hidden, "modal_evt_modify") {
 		<div class="flex justify-between items-center mb-4">
 			<h2 class="text-2xl font-bold text-blue-950">Modifier l'événement</h2>
 			<button onclick="this.closest('[data-modal]').hidden = true" class="text-blue-950 hover:text-green-600 text-2xl">&times;</button>
@@ -160,7 +160,7 @@ templ ModaleModifyEvent(error_map map[string]string, value_map map[string]string
 
 templ Modale(hidden bool, id string) {
 	<!-- Modale -->
-	<div id="modal_evt" data-modal={ id } hidden?={ hidden } class="fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50">
+	<div id={ id } data-modal={ id } hidden?={ hidden } class="fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50">
 		<div class="flex w-full h-full justify-center items-center">
 			<div class="bg-blue-50 p-6 rounded-lg w-full max-w-2xl mx-4 border-2 border-green-400 shadow-md">
 				{ children... }
@@ -241,7 +241,7 @@ templ EvenementDashBoardSection(before, after []*model.Evenement) {
 		</div>
 		<div class="flex gap-2 justify-self-end items-center justify-center">
 			<span class="font-bold text-blue-950 text-xl">Ajouter</span>
-			<button data-modal-trigger="ajouter_evt" class="w-[40px] h-[40px] hover:cursor-pointer hover:brightness-150 text-white rounded-full bg-green-500 font-bold flex items-center justify-center">+</button>
+			<button data-modal-trigger="modal_evt" class="w-[40px] h-[40px] hover:cursor-pointer hover:brightness-150 text-white rounded-full bg-green-500 font-bold flex items-center justify-center">+</button>
 		</div>
 		@EvenementsTab(before, after)
         @ModalAddEvt(make(map[string]string), make(map[string]string), true)
