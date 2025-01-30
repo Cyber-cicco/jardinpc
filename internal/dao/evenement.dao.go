@@ -17,7 +17,6 @@ func GetEvenementsAVenir() ([]*model.Evenement, error) {
 		WHERE(Evenement.Date.GT_EQ(CURRENT_TIMESTAMP())).
         ORDER_BY(Evenement.Date.ASC())
 
-    fmt.Printf("query.DebugSql(): %v\n", query.DebugSql())
 	if err := query.Query(db, &events); err != nil {
         fmt.Printf("err: %v\n", err)
 		return nil, err

@@ -17,7 +17,7 @@ func InitDB() {
 	once.Do(func() {
 		_db, err := sql.Open(
 			"mysql",
-			fmt.Sprintf("%s:%s@tcp(%s)/%s?parseTime=true&loc=Europe%%2FParis&time_zone=%%27Europe%%2FParis%%27", config.Conf.DBUser, config.Conf.DBPassword, config.Conf.DBAdress, config.Conf.DBName),
+			fmt.Sprintf("%s:%s@tcp(%s)/%s?parseTime=true&loc=Europe%%2FParis", config.Conf.DBUser, config.Conf.DBPassword, config.Conf.DBAdress, config.Conf.DBName),
 		)
 		if err != nil {
 			panic(err)
