@@ -4,7 +4,7 @@ services:
     ports:
       - "8001:8001"
     environment:
-      DB_HOST: jardin-db:3306  
+      DB_HOST: jardin-db:3306
       DB_USER_JARDIN: ${DB_USER_JARDIN}
       DB_PASS_JARDIN: ${DB_PASS_JARDIN}
       JARDIN_JWT_SECRET: ${JARDIN_JWT_SECRET}
