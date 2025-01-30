@@ -16,6 +16,7 @@ func InitController() {
 	router.Static("/css", "../resources/static/css")
 	router.Static("/js", "../resources/static/js")
 	router.Static("/img", "../resources/static/img")
+	router.Static("/", "../resources/static/")
 	router.StaticFile("/favicon.ico", "../resources/static/favicon.ico")
 
 	//Create the groupes
