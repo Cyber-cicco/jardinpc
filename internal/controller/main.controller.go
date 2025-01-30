@@ -26,6 +26,7 @@ func InitController() {
     authGroup.Use(middleware.Authenticate)
     html.InitHomeRoutes(baseGroup)
     html.InitEvenementsRoutes(baseGroup)
+    html.InitConditionsRoutes(baseGroup)
     html.InitAdminRoutes(baseGroup, authGroup)
     router.Run("0.0.0.0:8001")
 

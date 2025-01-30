@@ -305,15 +305,6 @@ templ UtilisateursTab(users []*model.Utilisateur) {
 							>
 								@svg.PenSvg()
 							</button>
-							<button
-								hx-delete={ "/admin/users/" + fmt.Sprintf("%d", user.ID) }
-								hx-target="#inner"
-								hx-swap="outerHTML"
-								hx-confirm="Êtes-vous sûr de vouloir supprimer cet événement ?"
-								class="p-2 text-red-600 hover:bg-red-100 rounded-md"
-							>
-								@svg.DeleteSvg()
-							</button>
 						</div>
 					</td>
 				</tr>
