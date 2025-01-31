@@ -21,3 +21,9 @@ permettant de partager des informations sur nos activités.
 
 Cela donnerait tout de suite un aspect sérieux à notre projet
 
+## Future pour le projet
+
+Ce site est également un test pour mes futurs projets. Notamment, j'ai l'intention de créer une application qui pourra
+alimenter le site en contenu via son API, plutôt que d'avoir sa propre base de donnée et son propre pannel d'administration.
+
+L'application, Leeveen, pourra ainsi envoyer des événements définis dans le groupe et permettre l'irrigation du site.
