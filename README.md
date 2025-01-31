@@ -33,4 +33,4 @@ se basant sur tailwind, go, htmx et templ.
 
 ## Contribuer
 
-Le projet n'est pas ouvert aux contributions
+Le projet n'est pas ouvert aux contributions.
