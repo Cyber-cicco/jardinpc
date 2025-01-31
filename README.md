@@ -30,3 +30,7 @@ L'application, Leeveen, pourra ainsi envoyer des événements définis dans le g
 
 Dans l'absolu, l'application proposerait également la possibilité de déployer toute forme de site web via un framework
 se basant sur tailwind, go, htmx et templ.
+
+## Contribuer
+
+Le projet n'est pas ouvert aux contributions
