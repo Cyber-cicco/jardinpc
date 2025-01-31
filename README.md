@@ -27,3 +27,6 @@ Ce site est également un test pour mes futurs projets. Notamment, j'ai l'intent
 alimenter le site en contenu via son API, plutôt que d'avoir sa propre base de donnée et son propre pannel d'administration.
 
 L'application, Leeveen, pourra ainsi envoyer des événements définis dans le groupe et permettre l'irrigation du site.
+
+Dans l'absolu, l'application proposerait également la possibilité de déployer toute forme de site web via un framework
+se basant sur tailwind, go, htmx et templ
